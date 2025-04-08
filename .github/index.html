@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录界面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            top: -10px;
+            left: 5px;
+            font-size: 12px;
+            color: #4ecdc4;
+            background: #fff;
+            padding: 0 5px;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-forgot a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+            color: #4ecdc4;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4ecdc4;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #45b7b0;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .signup-link a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>欢迎登录</h1>
+        </div>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" required>
+                <label for="username">用户名/邮箱</label>
+                <span class="error-message" id="usernameError"></span>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" required>
+                <label for="password">密码</label>
+                <span class="error-message" id="passwordError"></span>
+            </div>
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox"> 记住我
+                </label>
+                <a href="#">忘记密码？</a>
+            </div>
+            <a href="./fanju.html" target="_blank"><button type="submit" class="login-btn" >登录</button></a>
+        </form>
+        <div class="signup-link">
+            没有账号？<a href="./zhuche.html" target="_blank">立即注册</a>
+        </div>
+    </div>
+
+    <script>
+    // 获取登录表单元素
+    const loginForm = document.getElementById('loginForm');
+    // 获取用户名输入框元素
+    const usernameInput = document.getElementById('username');
+    // 获取密码输入框元素
+    const passwordInput = document.getElementById('password');
+    // 获取用户名错误信息显示元素
+    const usernameError = document.getElementById('usernameError');
+    // 获取密码错误信息显示元素
+    const passwordError = document.getElementById('passwordError');
+
+    // 为登录表单添加提交事件监听器
+    loginForm.addEventListener('submit', function(e) {
+        // 阻止表单默认的提交行为
+        e.preventDefault();
+        // 初始化验证标志为 true
+        let isValid = true;
+
+        // 用户名验证
+        if(usernameInput.value.trim() === '') {
+            // 如果用户名为空，显示错误信息
+            showError(usernameError, '用户名不能为空');
+            isValid = false;
+        } else {
+            // 如果用户名不为空，隐藏错误信息
+            hideError(usernameError);
+        }
+
+        // 密码验证
+        if(passwordInput.value.trim() === '') {
+            // 如果密码为空，显示错误信息
+            showError(passwordError, '密码不能为空');
+            isValid = false;
+        } else if(passwordInput.value.length < 6) {
+            // 如果密码长度小于6，显示错误信息
+            showError(passwordError, '密码至少需要6位');
+            isValid = false;
+        } else {
+            // 如果密码有效，隐藏错误信息
+            hideError(passwordError);
+        }
+
+        // 如果所有验证通过
+        if(isValid) {
+            // 获取登录按钮元素
+            const loginBtn = document.querySelector('.login-btn');
+            // 将登录按钮文本改为“登录中...”
+            loginBtn.innerHTML = '登录中...';
+            // 禁用登录按钮，防止重复提交
+            loginBtn.disabled = true;
+
+            // 模拟登录请求
+            setTimeout(() => {
+                // 显示登录成功提示
+                alert('登录成功！');
+                // 将登录按钮文本改回“登录”
+                loginBtn.innerHTML = '登录';
+                // 启用登录按钮
+                loginBtn.disabled = false;
+                // 重置表单
+                loginForm.reset();
+                window.open('./fanju.html');
+                
+            }, 1000);
+        }
+// 获取登录按钮元素
+const loginBtn = document.querySelector('.login-btn');
+// 为登录按钮添加点击事件监听器
+loginBtn.addEventListener('click', function() {
+    // 阻止表单默认的提交行为
+    const e = new Event('submit');
+    loginForm.dispatchEvent(e);
+});
+    });
+
+    // 显示错误信息的函数
+    function showError(element, message) {
+        // 设置错误信息文本
+        element.textContent = message;
+        // 显示错误信息
+        element.style.display = 'block';
+    }
+
+    // 隐藏错误信息的函数
+    function hideError(element) {
+        // 清空错误信息文本
+        element.textContent = '';
+        // 隐藏错误信息
+        element.style.display = 'none';
+    }
+
+    // 为密码输入框添加键盘按键事件监听器
+    passwordInput.addEventListener('keyup', function(e) {
+        // 如果按下的是回车键
+        if(e.key === 'Enter') {
+            // 触发登录表单的提交事件
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+    });
+</script>
+</body>
+</html>

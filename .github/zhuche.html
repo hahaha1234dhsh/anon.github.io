@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高级注册界面</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 440px;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                rgba(255,255,255,0.1) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255,255,255,0.1) 50%,
+                rgba(255,255,255,0.1) 75%,
+                transparent 75%);
+            background-size: 4px 4px;
+            transform: rotate(30deg);
+            z-index: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255,255,255,0.9);
+            color: #2d3748;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #cbd5e0;
+            transition: color 0.3s ease;
+        }
+
+        .input-group input:focus ~ .input-icon {
+            color: #667eea;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            background: #48bb78;
+            transition: width 0.5s ease, background 0.3s ease;
+        }
+
+        .terms {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .terms input {
+            margin-right: 0.75rem;
+            accent-color: #667eea;
+        }
+
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 25%,
+                rgba(255,255,255,0.1) 25%,
+                rgba(255,255,255,0.1) 50%,
+                transparent 50%,
+                transparent 75%,
+                rgba(255,255,255,0.1) 75%);
+            transform: rotate(30deg);
+            transition: transform 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #718096;
+        }
+
+        .login-link a {
+            color: #667eea;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: #f56565;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .glass-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <div class="header">
+            <h1>创建账户</h1>
+            <p>开启您的个性化体验</p>
+        </div>
+        <form id="registerForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder=" ">
+                <i class="fas fa-user input-icon"></i>
+                <span class="error-message" id="usernameError"></span>
+            </div>
+
+            <div class="input-group">
+                <input type="email" id="email" placeholder=" ">
+                <i class="fas fa-envelope input-icon"></i>
+                <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" placeholder=" ">
+                <i class="fas fa-lock input-icon"></i>
+                <div class="password-strength">
+                    <div class="strength-bar"></div>
+                </div>
+                <span class="error-message" id="passwordError"></span>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="terms">
+                <label for="terms">我同意 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a></label>
+            </div>
+
+            <button type="submit" class="submit-btn">立即注册</button>
+        </form>
+
+        <div class="login-link">
+            已有账户？<a href="./login.html">立即登录</a>
+        </div>
+    </div>
+
+    
+       <script>
+        // 密码强度实时检测
+        document.getElementById('password').addEventListener('input', function(e) {
+            const strength = calculateStrength(e.target.value);
+            const bar = document.querySelector('.strength-bar');
+            bar.style.width = `${strength}%`;
+            bar.style.backgroundColor = getStrengthColor(strength);
+        });
+
+        function calculateStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength += 30;
+            if (/[A-Z]/.test(password)) strength += 20;
+            if (/[0-9]/.test(password)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 30;
+            return Math.min(strength, 100);
+        }
+
+        function getStrengthColor(strength) {
+            if (strength < 40) return '#f56565';
+            if (strength < 70) return '#ecc94b';
+            return '#48bb78';
+        }
+
+        // 表单验证逻辑
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止表单默认提交行为
+
+            // 添加具体验证逻辑...
+            this.reset();
+            alert('注册成功！');
+            window.open("./index.html");
+        });
+    </script>
+   
+</body>
+</html>

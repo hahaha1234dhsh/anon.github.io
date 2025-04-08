@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BanG Dream! It's MyGO!!!!! 角色介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* 导航样式 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #E85B7A;
+        }
+
+        /* 角色卡片容器 */
+        .character-section {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        /* 角色卡片样式 */
+        .character-card {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 15px;
+            margin: 2rem auto;
+            padding: 2rem;
+            max-width: 1000px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 1s;
+        }
+
+        .character-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .character-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .character-image {
+            width: 280px;
+            height: 280px;
+            border-radius: 10px; /* 圆角调整为小数值 */
+            overflow: hidden;
+            margin: 0 2rem;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            background: #fff; /* 添加白色背景层 */
+        }
+    .character-image:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+}
+            .character-image::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: 2px solid rgba(232,91,122,0.2);
+                border-radius: 10px;
+                box-sizing: border-box;
+            }
+            @media (max-width: 768px) {
+                .character-image {
+                width: 240px;
+                height: 240px;
+                margin-bottom: 2rem;
+            }
+            .character-card:nth-child(even) {
+        flex-direction: column;
+    }
+}
+
+        .character-info {
+            flex: 1;
+        }
+
+        .character-name {
+            color: #E85B7A;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .character-cv {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .character-desc {
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .character-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .character-image {
+                width: 240px;
+                height: 240px;
+                margin-bottom: 1.5rem;
+            }
+
+            .character-name {
+                font-size: 2rem;
+            }
+            html {
+            scroll-behavior: smooth;
+        }
+
+        nav {
+            /* 添加过渡动画 */
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        /* 滚动时导航栏变化 */
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            position: relative;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* 下划线动画 */
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #E85B7A;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* 激活状态动画 */
+        nav a.active {
+            color: #E85B7A;
+            transform: scale(1.1);
+        }
+
+        nav a.active::after {
+            width: 100%;
+            left: 0;
+        }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#anon">千早愛音</a></li>
+            <li><a href="#tomorin">高松灯</a></li>
+            <li><a href="#rana">要楽奈</a></li>
+            <li><a href="#soyo">长崎素世</a></li>
+            <li><a href="#rikki">椎名立希</a></li>
+            <li><a id="fanhui" href="./fanju.html">返回</a></li>
+        </ul>
+    </nav>
+    <div class="character-section">
+        <!-- 愛音 -->
+        <section id="anon" class="character-card">
+            <div class="character-image">
+                <img src="./全图片项目/mygo图片/爱音.jpg" alt="千早愛音">
+            </div>
+            <div class="character-info">
+                <h2 class="character-name">千早愛音</h2>
+                <p class="character-cv">CV: 立石凛</p>
+                <p class="character-desc">
+                    开朗活泼的吉他手兼主唱，MyGO!!!!!的发起人。
+                    虽然有时会有些冒失，但总是用积极的态度带领着乐队前进。
+                    喜欢可爱的东西，乐器上总是贴满各种贴纸。
+                </p>
+            </div>
+        </section>
+
+        <!-- 高松灯 -->
+        <section id="tomorin" class="character-card">
+            <div class="character-image">
+                <img src="./全图片项目/mygo图片/灯.jpg" alt="高松灯">
+            </div>
+            <div class="character-info">
+                <h2 class="character-name">高松灯</h2>
+                <p class="character-cv">CV: 羊宮妃那</p>
+                <p class="character-desc">
+                    乐队的主唱兼作词担当，性格内向但情感丰富。
+                    歌词创作充满诗意，喜欢观察记录生活中的细节。
+                    与外表不同，拥有极具爆发力的歌声。
+                </p>
+            </div>
+        </section>
+
+        <!-- 要楽奈 -->
+        <section id="rana" class="character-card">
+            <div class="character-image">
+                <img src="./全图片项目/mygo图片/乐奈.jpg" alt="要楽奈">
+            </div>
+            <div class="character-info">
+                <h2 class="character-name">要楽奈</h2>
+                <p class="character-cv">CV: 青木阳菜</p>
+                <p class="character-desc">
+                    天才吉他手，拥有超凡的演奏技巧。
+                    我行我素的自由人，经常突然消失又突然出现。
+                    对音乐有着独特的理解，演奏风格极具感染力。
+                </p>
+            </div>
+        </section>
+        <section id="soyo" class="character-card">
+            <div class="character-image">
+                <img src="./全图片项目/mygo图片/素食.jpg" alt="长崎素世">
+            </div>
+            <div class="character-info">
+                <h2 class="character-name">长崎素世</h2>
+                <p class="character-cv">CV:蜜柑 </p>
+                <p class="character-desc">
+                    因其极端行为与反差性格，被观众戏称为“重女”（情感沉重）代表，但也因真实性与成长弧光广受认可
+                </p>
+            </div>
+        </section>
+        <section id="rikki" class="character-card">
+            <div class="character-image">
+                <img src="./全图片项目/mygo图片/立希.jpg" alt="椎名立希">
+            </div>
+            <div class="character-info">
+                <h2 class="character-name">椎名立希</h2>
+                <p class="character-cv">CV: 林鼓子</p>
+                <p class="character-desc">
+                    椎名立希是“MyGO!!!!!”鼓手兼作曲，“花咲川女子学园”高一年级生。个性认真，不苟言笑，言辞犀利，态度上无论是待人还是待己（除了灯）都非常严格。
+                </p>
+            </div>
+        </section>
+    </div>
+    <script>
+        // 滚动动画效果
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.character-card').forEach((card) => {
+            observer.observe(card);
+        });
+
+        // 导航栏激活状态
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            sections.forEach((sec, index) => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    navLinks[index].classList.add('active');
+                } else {
+                    navLinks[index].classList.remove('active');
+                }
+            });
+        });
+
+        // 导航栏滚动动画
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            // 添加滚动状态类
+            window.scrollY > 50 ? 
+                nav.classList.add('scrolled') : 
+                nav.classList.remove('scrolled');
+
+            // 激活状态更新
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            
+            sections.forEach((sec, index) => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    navLinks[index].classList.add('active');
+                } else {
+                    navLinks[index].classList.remove('active');
+                }
+            });
+        });
+
+        // 点击导航平滑滚动（增强）
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // 检查链接是否有 no-smooth-scroll 类
+                if (link.classList.contains('no-smooth-scroll')) {
+                    return; // 如果有，不阻止默认行为
+                }
+
+                
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                // 添加点击动画
+                link.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    link.style.transform = '';
+                }, 200);
+
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
